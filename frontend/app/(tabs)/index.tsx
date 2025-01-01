@@ -9,6 +9,7 @@ import AddGroupScreen from '@/interface/AddGroup';
 import JoinGroupScreen from '@/interface/JoinGroup';
 import ClientPart from '@/interface/ClientPart';
 import ConsultAllGroup from '@/interface/ConsultAllGoup';
+
 const Stack = createStackNavigator(); 
 
 export default function App() {
@@ -25,7 +26,7 @@ export default function App() {
       //   <Stack.Screen name="ClientPart" component={ClientPart} />
       //   <Stack.Screen name="ConsultAllGroup" component={ConsultAllGroup}/>
       // </Stack.Navigator>
- <ConsultAllGroup></ConsultAllGroup> 
+ <AddGroupScreen></AddGroupScreen> 
    
  
    

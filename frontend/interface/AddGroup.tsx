@@ -1,23 +1,18 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Alert, TextInput, TouchableOpacity } from 'react-native';
+import axios from 'axios';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
-export default function AddGroupScreen() {
+function AddGroupScreen() {
   const [groupName, setGroupName] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [telephone, setTelephone] = useState('');
-  const [montant, setmontant] = useState('');
+  const [montant, setMontant] = useState('');
 
-  const handleSubmit = () => {
-    // Validation simple
-    if (
-      !groupName.trim() ||
-      !firstName.trim() ||
-      !lastName.trim() ||
-      !email.trim() ||
-      !telephone.trim()
-    ) {
+  const handleSubmit = async () => {
+    // Validation des champs
+    if (!groupName.trim() || !firstName.trim() || !lastName.trim() || !email.trim() || !telephone.trim() || !montant.trim()) {
       Alert.alert('Erreur', 'Tous les champs doivent être remplis.');
       return;
     }
@@ -30,25 +25,36 @@ export default function AddGroupScreen() {
       return;
     }
 
-    // Affichage des données dans une alerte
-    Alert.alert(
-      'Données Soumises',
-      `Groupe: ${groupName}\nNom: ${lastName}\nPrénom: ${firstName}\nEmail: ${email}\nTéléphone: ${telephone}`
-    );
+    const groupData = {
+      groupName:groupName,
+      firstName:firstName,
+      lastName:lastName,
+      email:email,
+      montant:montant,
+      telephone:telephone,
+    };
 
-    // Réinitialisation des champs
-    setGroupName('');
-    setFirstName('');
-    setLastName('');
-    setEmail('');
-    setTelephone('');
-    setmontant('');
-  };
-
+  
+      axios
+      .post('http://172.20.10.4:5001/addgroup', groupData)
+      .then(req=>{
+      console.log(req);
+      if (req.data.status === 'ok') {
+        Alert.alert('Succès', 'Le groupe a été ajouté avec succès.');
+      } else {
+        Alert.alert('Erreur', req.data.error || 'Une erreur est survenue.');
+      }
+      })
+      .catch(e => {
+              Alert.alert('Error', 'An error occurred while creating the account.');
+              console.error('Error:', e.message);
+            });
+  }
   return (
     <View style={styles.container}>
-      <Text style={styles.title1}>Ajouter un Groupe</Text>
       <View style={styles.card}>
+        <Text style={styles.title}>Ajouter un Groupe</Text>
+
         {/* Nom du groupe */}
         <TextInput
           style={styles.input}
@@ -77,30 +83,30 @@ export default function AddGroupScreen() {
         <TextInput
           style={styles.input}
           placeholder="Email"
+          keyboardType="email-address"
           value={email}
           onChangeText={setEmail}
-          keyboardType="email-address"
         />
-          {/* Email */}
-          <TextInput
+
+        {/* Montant */}
+        <TextInput
           style={styles.input}
-          placeholder="montant"
+          placeholder="Montant"
+          keyboardType="numeric"
           value={montant}
-          onChangeText={setmontant}
-
+          onChangeText={setMontant}
         />
-
 
         {/* Téléphone */}
         <TextInput
           style={styles.input}
           placeholder="Téléphone"
+          keyboardType="phone-pad"
           value={telephone}
           onChangeText={setTelephone}
-          keyboardType="phone-pad"
         />
 
-        {/* Bouton Soumettre */}
+        {/* Bouton Ajouter */}
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Ajouter</Text>
         </TouchableOpacity>
@@ -112,16 +118,29 @@ export default function AddGroupScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f8f9fa',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#f8f9fa',
   },
-  title1: {
+  card: {
+    width: '100%',
+    maxWidth: 400,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 3,
+  },
+  title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#333',
+    textAlign: 'center',
   },
   input: {
     width: '100%',
@@ -146,16 +165,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  card: {
-    width: '100%',
-    maxWidth: 400,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 3,
-  },
 });
+
+export default AddGroupScreen;

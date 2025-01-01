@@ -17,6 +17,9 @@ mongoose.connect(mongoUrl).then(()=>{
 require("./UserDetails")
 const User=mongoose.model("UserInfo");
 
+require("./GroupDetails")
+const Group=mongoose.model("GroupInfo");
+
 app.get("/",(req,res)=>{
   res.send({status:"started"})
 });
@@ -71,32 +74,43 @@ app.post("/login", async (req, res) => {
     }
 });
 
-require("./GroupDetails")
-const Group=mongoose.model("UserInfo");
 
-app.post('/addgroup',async(req,res)=> {
-    const {groupName,firstName,lastName,email,telephone,montant}=req.body;
 
-   //this part for email should be unique
-   const oldGroup= await Group.findOne({groupName:groupName});
-   
-   if(oldUser){
-    return res.send({ data: "Group Already exists!"});
-   }
-
-    try{
-        await Group.create({
-           groupName:groupName,
-           firstName:firstName,
-           lastName:lastName,
-           email:email,
-           montant:montant,
-           telephone:telephone
+app.post("/addgroup",async(req,res)=> {
+    const { groupName, firstName, lastName, email, montant, telephone } = req.body;
+    try {
+        // Vérifiez si le groupe ou l'email existe déjà
+        const existingGroup = await Group.findOne({ groupName });
+        const existingEmail = await Group.findOne({ email });
+    
+        if (existingGroup) {
+          return res.status(400).send({ status: "error", data: "Group name already exists!" });
+        }
+    
+        if (existingEmail) {
+          return res.status(400).send({ status: "error", data: "Email already exists!" });
+        }
+    
+        // Créer un nouveau document
+        const newGroup = new Group({
+          groupName,
+          firstName,
+          lastName,
+          email,
+          montant,
+          telephone,
         });
-        res.send({status: "ok",data: "Group Created"});
-    }catch(error){
-        res.send({status: "error",data: error});
-    }
+    
+        // Sauvegarder dans la base de données
+        await newGroup.save();
+    
+        // Réponse en cas de succès
+        res.send({ status: "ok", data: "Group created successfully!" });
+      } catch (error) {
+        console.error("Error saving group:", error);
+        res.status(500).send({ status: "error", data: "An error occurred while saving the group." });
+      }
+   
 });
 
 app.listen(5001,()=>{

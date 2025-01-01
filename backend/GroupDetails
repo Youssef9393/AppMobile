@@ -5,9 +5,10 @@ const GroupDetailsSchema= new mongoose.Schema({
        firstName:String,
        lastName:String,
        email:String,
-       montant:Number,
+       montant:String,
        telephone:String
 },{
     collection:"GroupInfo"
 });
-mongoose.model("GroupInfo",GroupDetailsSchema);
+
+module.exports =mongoose.model("GroupInfo",GroupDetailsSchema);
