@@ -71,6 +71,34 @@ app.post("/login", async (req, res) => {
     }
 });
 
+require("./GroupDetails")
+const Group=mongoose.model("UserInfo");
+
+app.post('/addgroup',async(req,res)=> {
+    const {groupName,firstName,lastName,email,telephone,montant}=req.body;
+
+   //this part for email should be unique
+   const oldGroup= await Group.findOne({groupName:groupName});
+   
+   if(oldUser){
+    return res.send({ data: "Group Already exists!"});
+   }
+
+    try{
+        await Group.create({
+           groupName:groupName,
+           firstName:firstName,
+           lastName:lastName,
+           email:email,
+           montant:montant,
+           telephone:telephone
+        });
+        res.send({status: "ok",data: "Group Created"});
+    }catch(error){
+        res.send({status: "error",data: error});
+    }
+});
+
 app.listen(5001,()=>{
     console.log("Node js server started");
 });

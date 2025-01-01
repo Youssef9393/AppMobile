@@ -59,7 +59,7 @@ function AddAccount({ navigation }: { navigation: any } ) {
     };
 
     axios
-      .post('http://100.69.97.220:5001/register', userData)
+      .post('http://172.20.10.4:5001/register', userData)
       .then(res => {
         // Show success or error message based on the server response
         if (res.data.status==="ok") {

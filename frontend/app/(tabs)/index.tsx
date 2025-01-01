@@ -8,22 +8,24 @@ import HomePage from '@/interface/Home';
 import AddGroupScreen from '@/interface/AddGroup';
 import JoinGroupScreen from '@/interface/JoinGroup';
 import ClientPart from '@/interface/ClientPart';
+import ConsultAllGroup from '@/interface/ConsultAllGoup';
 const Stack = createStackNavigator(); 
 
 export default function App() {
   return (
 
     
-      <Stack.Navigator initialRouteName="login"  >
-        <Stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="createaccount" component={AddAccount} />
-        <Stack.Screen name="checkemail" component={ResetPasswordScreen} />
-        <Stack.Screen name="home" component={HomePage}  options={{ headerShown: false }} />
-        <Stack.Screen name="AddGroupScreen" component={AddGroupScreen} />
-        <Stack.Screen name="JoinGroupScreen" component={JoinGroupScreen} />
-        <Stack.Screen name="ClientPart" component={ClientPart} />
-      </Stack.Navigator>
-
+      // <Stack.Navigator initialRouteName="login"  >
+      //   <Stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }} />
+      //   <Stack.Screen name="createaccount" component={AddAccount} />
+      //   <Stack.Screen name="checkemail" component={ResetPasswordScreen} />
+      //   <Stack.Screen name="home" component={HomePage}  options={{ headerShown: false }} />
+      //   <Stack.Screen name="AddGroupScreen" component={AddGroupScreen} />
+      //   <Stack.Screen name="JoinGroupScreen" component={JoinGroupScreen} />
+      //   <Stack.Screen name="ClientPart" component={ClientPart} />
+      //   <Stack.Screen name="ConsultAllGroup" component={ConsultAllGroup}/>
+      // </Stack.Navigator>
+ <ConsultAllGroup></ConsultAllGroup> 
    
  
    

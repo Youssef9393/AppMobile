@@ -1,12 +1,12 @@
+const mongoose = require("mongoose");
 
-const mongoose=require("mongoose");
-
-const UserDetailsSchema= new mongoose.Schema({
-       username: String,
-       email: { type:String, unique: true},
-       password:String,
-       telephone:String
-},{
-    collection:"UserInfo"
+// Schéma Mongoose pour un groupe
+const UserDetailsSchema = new mongoose.Schema({
+  username:String,
+  email: { type:String, unique: true},
+  password:String,
+  telephone: String
 });
-mongoose.model("UserInfo",UserDetailsSchema);
+
+// Modèle Mongoose
+module.exports = mongoose.model("UserInfo", UserDetailsSchema);

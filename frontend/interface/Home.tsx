@@ -48,6 +48,12 @@ const Home = ({ navigation }: { navigation: any }) =>{
     onPress={() => navigation.navigate('AddGroupScreen')}
    /> 
     <GroupCard 
+    title="Consulter les Groupes"
+    descriptions="Write you ID 
+  "
+    onPress={() => navigation.navigate('ConsultAllGroup')}
+   /> 
+    <GroupCard 
     title="Participate In Groupe"
     descriptions="Write you ID 
   "
@@ -59,12 +65,7 @@ const Home = ({ navigation }: { navigation: any }) =>{
   "
     onPress={() => navigation.navigate('JoinGroupScreen')}
    /> 
-    <GroupCard 
-    title=""
-    descriptions="Write you ID 
-  "
-    onPress={() => navigation.navigate('JoinGroupScreen')}
-   /> 
+   
     <GroupCard 
     title="Participate In Groupe"
     descriptions="Write you ID 

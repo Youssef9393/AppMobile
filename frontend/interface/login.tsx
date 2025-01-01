@@ -31,7 +31,7 @@ function LoginScreen({ navigation }: { navigation: any } ){
         };
       
         try {
-          const res = await axios.post('http://100.69.97.220:5001/login', userData);
+          const res = await axios.post('http://172.20.10.4:5001/login', userData);
       
           if (res.data.status === 'ok') {
             console.log(res.data);
