@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, FlatList, Text, Alert } from "react-native";
 import { Card, Button } from "react-native-paper";
+import axios from "axios";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const CardGroup = ({ nameGroup, montant, onContact, onConsult }:any) => (
+interface CardGroupProps {
+  nameGroup: string;
+  montant: string;
+  onContact: () => void;
+  onConsult: () => void;
+  onDelete: () => void;
+}
+
+const CardGroup = ({ nameGroup, montant, onContact, onConsult, onDelete }: CardGroupProps) => (
   <Card style={styles.card}>
     <Card.Content>
       <View style={styles.row}>
@@ -17,41 +28,129 @@ const CardGroup = ({ nameGroup, montant, onContact, onConsult }:any) => (
       <Button mode="outlined" onPress={onConsult} style={styles.button}>
         Consulter
       </Button>
+      <Button
+        mode="text"
+        onPress={onDelete}
+        style={[styles.deleteButton, { paddingVertical: 6, paddingHorizontal: 10 }]}
+      >
+        <Ionicons name="trash" size={18} color="red" />
+      </Button>
     </Card.Actions>
   </Card>
 );
 
 const App = () => {
-  const data = [
-    { id: "1", nameGroup: "Groupe Alpha", montant: "250" },
-    { id: "2", nameGroup: "Groupe Beta", montant: "400" },
-    { id: "3", nameGroup: "Groupe Gamma", montant: "300" },
-  ];
+  const [groups, setGroups] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleContact = (nameGroup:any) => {
-    Alert.alert(`Contactez ${nameGroup}`);
+  const fetchGroups = async (adminId: string) => {
+    console.log(`adminId envoyé : ${adminId}`); // Debug
+
+    try {
+      const response = await axios.get("http://192.168.0.144:5000/groups", {
+        params: { adminId: adminId },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+
+      console.log("Réponse du serveur:", response.status, response.data);
+      if (response.status === 200) {
+        setGroups(response.data);
+      } else {
+        console.log("Erreur : Impossible de récupérer les groupes.");
+      }
+    } catch (error: any) {
+      if (error.response) {
+        console.log("Erreur provenant du serveur : ", error.response.data);
+      } else {
+        console.log("Erreur de connexion :", error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleConsult = (nameGroup:any) => {
-    Alert.alert(`Consultez les détails de ${nameGroup}`);
+  useEffect(() => {
+    const fetchData = async () => {
+      const Id = await AsyncStorage.getItem("userId");
+      if (Id) {
+        console.log(`adminId récupéré depuis AsyncStorage: ${Id}`);
+        fetchGroups(Id);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleContact = (nameGroup: string) => {
+    console.log(`Contactez ${nameGroup}`);
   };
 
-  const renderItem = ({ item }:any) => (
+  const handleConsult = (nameGroup: string) => {
+    console.log(`Consultez les détails de ${nameGroup}`);
+  };
+
+  const handleDelete = (groupId: string) => {
+    if (groups.length === 0) {
+      console.log("Aucun groupe à supprimer.");
+      return;
+    }
+
+    Alert.alert(
+      "Suppression",
+      `Voulez-vous vraiment supprimer le groupe ${groupId}?`,
+      [
+        { text: "Annuler", style: "cancel" },
+        {
+          text: "Supprimer",
+          onPress: async () => {
+            try {
+              const response = await axios.delete(`http://192.168.0.144:5000/groups/${groupId}`);
+              if (response.status === 200) {
+                console.log("Groupe supprimé avec succès.");
+                setGroups(groups.filter((group) => group._id !== groupId));
+              } else {
+                console.log("Erreur : Une erreur est survenue lors de la suppression.");
+              }
+            } catch (error: any) {
+              console.log("Erreur de connexion au serveur lors de la suppression:", error.message);
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const renderItem = ({ item }: { item: { name: string; price: number; _id: string } }) => (
     <CardGroup
-      nameGroup={item.nameGroup}
-      montant={item.montant}
-      onContact={() => handleContact(item.nameGroup)}
-      onConsult={() => handleConsult(item.nameGroup)}
+      nameGroup={item.name}
+      montant={item.price.toString()}
+      onContact={() => handleContact(item.name)}
+      onConsult={() => handleConsult(item.name)}
+      onDelete={() => handleDelete(item._id)}
     />
   );
 
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text>Chargement en cours...</Text>
+      </View>
+    );
+  }
+
+  if (groups.length === 0) {
+    return (
+      <View style={styles.container}>
+        <Text>Pas de groupe pour le moment.</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-      />
+      <FlatList data={groups} keyExtractor={(item) => item._id} renderItem={renderItem} />
     </View>
   );
 };
@@ -75,7 +174,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#000",
-    flex: 1, // Permet au texte de prendre l'espace restant
+    flex: 1,
     textAlign: "left",
   },
   montant: {
@@ -91,7 +190,12 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: 0,
-    width:120,
+    width: 120,
+  },
+  deleteButton: {
+    marginHorizontal: 0,
+    width: 80,
+    justifyContent: "center",
   },
 });
 

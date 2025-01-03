@@ -10,9 +10,9 @@ export default function ProfileScreen() {
     <View style={styles.container}>
       {/* Profile Image */}
       <Image
-        source={{
-          uri: 'https://via.placeholder.com/150', // Replace with the actual image URL
-        }}
+        source={
+          require('C:/AppMobile/frontend/assets/images/bg.jpg') // Replace with the actual image URL
+        }
         style={styles.profileImage}
       />
 

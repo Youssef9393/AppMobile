@@ -10,6 +10,7 @@ const JWT_SECRET="7WK5T79u5mIzjIXXi2oI9Fglmgivv7RAJ7izyj9tUyQWWUU888882";
 
 mongoose.connect(mongoUrl).then(()=>{
     console.log("Database connected");
+    
 }).catch((e)=>{
     console.log(e);
 });

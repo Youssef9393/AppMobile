@@ -16,17 +16,18 @@ export default function App() {
   return (
 
     
-      // <Stack.Navigator initialRouteName="login"  >
-      //   <Stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }} />
-      //   <Stack.Screen name="createaccount" component={AddAccount} />
-      //   <Stack.Screen name="checkemail" component={ResetPasswordScreen} />
-      //   <Stack.Screen name="home" component={HomePage}  options={{ headerShown: false }} />
-      //   <Stack.Screen name="AddGroupScreen" component={AddGroupScreen} />
-      //   <Stack.Screen name="JoinGroupScreen" component={JoinGroupScreen} />
-      //   <Stack.Screen name="ClientPart" component={ClientPart} />
-      //   <Stack.Screen name="ConsultAllGroup" component={ConsultAllGroup}/>
-      // </Stack.Navigator>
- <AddGroupScreen></AddGroupScreen> 
+      <Stack.Navigator initialRouteName="login"  >
+        <Stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="createaccount" component={AddAccount} />
+        <Stack.Screen name="checkemail" component={ResetPasswordScreen} />
+        <Stack.Screen name="home" component={HomePage}  options={{ headerShown: false }} />
+        <Stack.Screen name="AddGroupScreen" component={AddGroupScreen} />
+        <Stack.Screen name="JoinGroupScreen" component={JoinGroupScreen} />
+        <Stack.Screen name="ClientPart" component={ClientPart} />
+        <Stack.Screen name="ConsultAllGroup" component={ConsultAllGroup}/>
+      </Stack.Navigator>
+//<AddGroupScreen></AddGroupScreen> 
+//<ClientPart> </ClientPart>
    
  
    

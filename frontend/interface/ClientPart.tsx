@@ -1,53 +1,56 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, Alert, StyleSheet, ScrollView } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const ExpenseCard = ({ navigation }: { navigation: any }) => {
+  const [groupName] = useState('Groupe Aliane');
   const [people, setPeople] = useState([
     { id: '1', name: 'Alice', email: 'alice@example.com', expense: 120 },
     { id: '2', name: 'Bob', email: 'bob@example.com', expense: 250 },
     { id: '3', name: 'Charlie', email: 'charlie@example.com', expense: 90 },
   ]);
+
+  const [transactions, setTransactions] = useState([
+    { id: '1', description: 'khali a paye le déjeuner', amount: 50 },
+    { id: '2', description: 'nadia a payé le transport', amount: 30 },
+    { id: '1', description: 'Ahmed a payé le déjeuner', amount: 10 },
+    { id: '2', description: 'Ala a payé le transport', amount: 30 },
+    { id: '1', description: 'mohamed a payé le déjeuner', amount: 500 },
+    { id: '2', description: 'Bob a payé le transport', amount: 300 },
+  ]);
+
   const [totalBalance, setTotalBalance] = useState(() =>
     people.reduce((total, person) => total + person.expense, 0)
   );
-  const [newPersonName, setNewPersonName] = useState('');
-  const [newPersonEmail, setNewPersonEmail] = useState('');
-  const [newPersonExpense, setNewPersonExpense] = useState('');
 
-  const handleAddPerson = () => {
-    if (!newPersonName || !newPersonEmail || !newPersonExpense) {
-      Alert.alert('Erreur', 'Veuillez remplir tous les champs.');
-      return;
-    }
-
-    if (isNaN(Number(newPersonExpense))) {
-      Alert.alert('Erreur', 'La dépense doit être un nombre.');
-      return;
-    }
-
-    const newPerson = {
+  const handleAddTransaction = () => {
+    const newTransaction = {
       id: Math.random().toString(),
-      name: newPersonName,
-      email: newPersonEmail,
-      expense: Number(newPersonExpense),
+      description: 'Nouvelle transaction',
+      amount: 20, // Exemple fixe, à remplacer par une entrée utilisateur
     };
+    setTransactions([...transactions, newTransaction]);
+    setTotalBalance(totalBalance + newTransaction.amount);
+  };
 
-    setPeople([...people, newPerson]);
-    setTotalBalance(totalBalance + newPerson.expense);
-    setNewPersonName('');
-    setNewPersonEmail('');
-    setNewPersonExpense('');
+  const handleShareGroup = () => {
+    Alert.alert('Partage', `Vous avez partagé le groupe "${groupName}" avec succès !`);
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Solde total */}
+      <View style={styles.groupHeader}>
+        <Text style={styles.groupName}>{groupName}</Text>
+        <TouchableOpacity onPress={handleShareGroup}>
+          <Icon name="share-social-outline" size={24} color="#007bff" />
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Solde Total</Text>
         <Text style={styles.totalBalance}>{totalBalance} €</Text>
       </View>
 
-      {/* Liste des personnes */}
       <Text style={styles.sectionTitle}>Personnes et Dépenses</Text>
       <FlatList
         data={people}
@@ -63,35 +66,41 @@ const ExpenseCard = ({ navigation }: { navigation: any }) => {
         )}
       />
 
-      {/* Ajouter une personne */}
-      <Text style={styles.sectionTitle}>Ajouter une Personne</Text>
-    
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={newPersonEmail}
-        onChangeText={setNewPersonEmail}
-        keyboardType="email-address"
+      <Text style={styles.sectionTitle}>Transactions</Text>
+      <FlatList
+        data={transactions}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.transactionItem}>
+            <Text style={styles.transactionDescription}>{item.description}</Text>
+            <Text style={styles.transactionAmount}>+ {item.amount} €</Text>
+          </View>
+        )}
       />
-   
-      <TouchableOpacity style={styles.button} onPress={handleAddPerson}>
-        <Text style={styles.buttonText}>Ajouter</Text>
+
+      <TouchableOpacity style={styles.addTransactionButton} onPress={handleAddTransaction}>
+        <Text style={styles.addTransactionText}>Ajouter une Transaction</Text>
       </TouchableOpacity>
 
-      {/* Bouton pour aller au tableau de bord */}
-      <TouchableOpacity
-        style={[styles.button, styles.dashboardButton]}
-        onPress={() => navigation.navigate('Dashboard', { people, totalBalance })}
-      >
-        <Text style={styles.buttonText}>Tableau de Bord </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[styles.button, styles.paiment]}
-        onPress={() => navigation.navigate('Dashboard', { people, totalBalance })}
-      >
-        <Text style={styles.buttonText}> Ajouter Dépences</Text>
-      </TouchableOpacity>
+      <View style={styles.button}>
+        <TouchableOpacity style={styles.cardButton} onPress={() => {}}>
+          <Text style={styles.buttonText}>Ajouter une Personne</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.cardButton}
+          onPress={() => navigation.navigate('Dashboard', { people, totalBalance })}
+        >
+          <Text style={styles.buttonText}>Tableau de Bord</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.cardButton}
+          onPress={() => navigation.navigate('Dashboard', { people, totalBalance })}
+        >
+          
+          <Text style={styles.buttonText}>Ajouter Dépenses</Text>
+        </TouchableOpacity>
+        
+      </View>
       
     </ScrollView>
   );
@@ -101,41 +110,50 @@ export default ExpenseCard;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal:25,
-    paddingVertical:50,
     flexGrow: 1,
     padding: 20,
     backgroundColor: '#f8f9fa',
   },
+  groupHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  groupName: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  personName:{
+    color:'black',
+  },
+  personEmail:{
+    color:'blue',
+  },
+  personExpense:{
+    color:'green',
+  },
   card: {
-    paddingHorizontal:10,
-    paddingVertical:20,
-    backgroundColor: 'green',
+    backgroundColor: 'black',
     borderRadius: 10,
     padding: 20,
     marginBottom: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 10,
-    elevation: 3,
   },
   cardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 10,
+    color: '#fff',
   },
   totalBalance: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#fff',
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginTop: 20,
-    marginBottom: 10,
+    marginVertical: 10,
     color: '#555',
   },
   personItem: {
@@ -145,41 +163,47 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
   },
-  personName: {
+  transactionItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  transactionDescription: {
     fontSize: 16,
     color: '#333',
   },
-  personEmail: {
-    fontSize: 14,
-    color: 'blue',
-  },
-  personExpense: {
+  transactionAmount: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#007bff',
+    color: '#28a745',
   },
-  input: {
-    height: 50,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    paddingHorizontal: 15,
-    backgroundColor: '#fff',
+  addTransactionButton: {
+    backgroundColor: '#28a745',
+    paddingVertical: 15,
+    borderRadius: 50,
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  addTransactionText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   button: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 0,
+  },
+  cardButton: {
     backgroundColor: 'black',
-    paddingVertical: 15,
-    borderRadius: 8,
+    borderRadius: 30,
+    paddingVertical: 20,
+    paddingHorizontal: 15,
     alignItems: 'center',
-    marginBottom: 10,
-  },
-  dashboardButton: {
-    backgroundColor: 'black',
-  },
-  paiment:{
-    backgroundColor: 'black',
-
+    flex: 1,
+    marginHorizontal: 5,
   },
   buttonText: {
     color: '#fff',

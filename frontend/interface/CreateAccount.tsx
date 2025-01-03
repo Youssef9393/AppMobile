@@ -163,7 +163,7 @@ function AddAccount({ navigation }: { navigation: any } ) {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#EAEAEA',
+    backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   createButton: {
-    backgroundColor: 'black',
+    backgroundColor: 'orange',
     borderRadius: 100,
     width: '70%',
     alignItems: 'center',

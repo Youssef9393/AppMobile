@@ -11,8 +11,6 @@ import LoginScreen from './login';
 
 const Drawer = createDrawerNavigator();
 
-
-
 const HorizontalLine = () => {
     return <View style={styles.horizontalLine} />;
   };
@@ -261,7 +259,7 @@ const styles = StyleSheet.create({
     marginVertical:10,
     width: '100%',
     maxWidth: 400,
-    backgroundColor: 'orange',
+    backgroundColor: 'purple',
     borderRadius: 8,
     padding: 20,
     shadowColor: '#000',
