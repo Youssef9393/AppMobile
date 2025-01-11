@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
-  ImageBackground,
+  Image,
 } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 function LoginScreen({ navigation }: { navigation: any }) {
   const [Email, setEmail] = useState('');
@@ -46,10 +47,16 @@ function LoginScreen({ navigation }: { navigation: any }) {
 
   return (
    
+   <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
+         <Image
+    source={require('../assets/images/ln.jpg')} // Replace with your image path
+    style={styles.img}
+
+  ></Image>
         <View style={styles.card}>
           {/* Login Title */}
-          <Text style={styles.title}>Bienvenue !</Text>
+          <Text style={styles.title}> Login!</Text>
 
           {/* Email Input */}
           <View style={styles.inputContainer}>
@@ -95,32 +102,40 @@ function LoginScreen({ navigation }: { navigation: any }) {
           </Text>
         </View>
       </View>
-   
+      </ScrollView>
+
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    resizeMode: 'cover', // Makes the image cover the entire screen
+  scrollContainer: {
+    flexGrow: 1,
+    marginVertical:0,
+    paddingVertical: 0, 
   },
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 0,
+    marginVertical:30,
+  },
+  img: {
+    fontSize:30,
+    borderRadius: 300,
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: 'white',
+    color: 'black',
     textAlign: 'center',
+
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'black',
+    backgroundColor: 'lightblue',
     borderRadius: 80,
     paddingHorizontal: 10,
     marginBottom: 25,
@@ -137,7 +152,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   loginButton: {
-    backgroundColor: 'black',
+    backgroundColor: 'lightblue',
     borderRadius: 80,
     width: '100%',
     alignItems: 'center',
@@ -146,7 +161,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   loginButtonText: {
-    color: '#FFF',
+    color: 'black',
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -159,14 +174,14 @@ const styles = StyleSheet.create({
   },
   link: {
     padding: 8,
-    color: 'white',
+    color: 'black',
     fontSize: 17,
     fontWeight: 'bold',
   },
   card: {
     width: '100%',
     maxWidth: 400,
-    backgroundColor: 'purple',
+    backgroundColor: '',
     borderRadius: 8,
     padding: 20,
     shadowColor: '#000',

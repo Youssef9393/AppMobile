@@ -1,42 +1,103 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, FlatList, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome'; 
 
-const CenteredSearchBar = () => {
-  const [search, setSearch] = useState('');
+const Search = ({ navigation }: { navigation: any }) => {
+  const [data] = useState([
+    { id: '1', name: 'Créer un groupe' },
+    { id: '2', name: 'Voir les groupes' },
+    { id: '3', name: 'Identifier un groupe' },
+    { id: '4', name: 'Dashboard' },
+  ]);
+
+  const [query, setQuery] = useState('');
+
+  const filteredData = data.filter(item =>
+    item.name.toLowerCase().includes(query.toLowerCase())
+  );
+
+  const handleNavigation = (itemName: string) => {
+    if (itemName === 'Voir les groupes') {
+      navigation.navigate('ConsultAllGroup');
+    }
+    if (itemName === 'Créer un groupe') {
+      navigation.navigate('AddGroupScreen');
+    }
+    if (itemName === 'Identifier un groupe') {
+      navigation.navigate('JoinGroupScreen');
+    }
+    if (itemName === 'Dashboard') {
+      navigation.navigate('Dashboard');
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.searchBar}
-        placeholder="Rechercher..."
-        value={search}
-        onChangeText={setSearch}
+      {/* Search Input with Icon */}
+      <View style={styles.searchContainer}>
+        <Icon name="search" size={20} color="#ccc" style={styles.icon} />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search"
+          value={query}
+          onChangeText={setQuery}
+        />
+      </View>
+      <View>
+      <Text style={styles.recent}>Recent</Text>
+      <Text style={styles.viewAll}>Voir tout</Text>
+      </View>
+      {/* Filtered List */}
+      <FlatList
+        data={filteredData}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => handleNavigation(item.name)}>
+            <Text style={styles.item}>{item.name}</Text>
+          </TouchableOpacity>
+        )}
       />
     </View>
   );
 };
 
-export default CenteredSearchBar;
-
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Prend toute la hauteur de l'écran
-    justifyContent: 'center', // Centre verticalement
-    alignItems: 'center', // Centre horizontalement
-    backgroundColor: 'gray', // Couleur de fond
+    flex: 1,
+    padding: 20,
   },
-  searchBar: {
-    width: '80%', // Largeur de la barre de recherche (80% de l'écran)
-    height: 50, // Hauteur
-    borderColor: '#ccc', // Bordure grise
-    borderWidth: 1, // Épaisseur de la bordure
-    borderRadius: 25, // Coins arrondis
-    paddingHorizontal: 20, // Espacement interne à gauche/droite
-    backgroundColor: '#fff', // Fond blanc
-    shadowColor: '#000', // Ombre
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 5,
-    elevation: 3, // Ombre pour Android
+  searchContainer: {
+    marginVertical:18,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 30,
+    marginBottom: 20,
+    paddingLeft: 10,
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+    paddingLeft: 10, // Space between icon and text
+    fontSize: 16,
+  },
+  icon: {
+    marginRight: 5, // Space between icon and input text
+  },
+  item: {
+    fontSize: 18,
+    padding: 10,
+  },
+  recent: {
+    color: 'blue',
+    fontSize: 16, // Font size for "Recent"
+  },
+  viewAll: {
+    color: 'blue',
+    fontSize: 16, // Font size for "Voir tout"
+    textAlign: 'right', // Align text to the right
   },
 });
+
+export default Search;

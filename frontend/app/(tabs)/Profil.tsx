@@ -18,19 +18,9 @@ export default function ProfileScreen() {
 
       {/* Profile Name */}
       <Text style={styles.name}>John Doe</Text>
+      <Text>Email@gmail.com</Text>
 
-      {/* Buttons */}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, styles.modifyButton]} onPress={handleModify}>
-          <Text style={styles.buttonText}>Modify</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.shareButton]} onPress={handleShare}>
-          <Text style={styles.buttonText}>Share</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.contactButton]} onPress={handleContact}>
-          <Text style={styles.buttonText}>Contact</Text>
-        </TouchableOpacity>
-      </View>
+ 
     </View>
   );
 }

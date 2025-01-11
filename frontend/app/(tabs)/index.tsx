@@ -9,6 +9,8 @@ import AddGroupScreen from '@/interface/AddGroup';
 import JoinGroupScreen from '@/interface/JoinGroup';
 import ClientPart from '@/interface/ClientPart';
 import ConsultAllGroup from '@/interface/ConsultAllGoup';
+import Dashboard from '@/interface/Dashboard';
+import Search from './Search';
 
 const Stack = createStackNavigator(); 
 
@@ -18,6 +20,7 @@ export default function App() {
     
       <Stack.Navigator initialRouteName="login"  >
         <Stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="createaccount" component={AddAccount} />
         <Stack.Screen name="checkemail" component={ResetPasswordScreen} />
         <Stack.Screen name="home" component={HomePage}  options={{ headerShown: false }} />
@@ -25,31 +28,13 @@ export default function App() {
         <Stack.Screen name="JoinGroupScreen" component={JoinGroupScreen} />
         <Stack.Screen name="ClientPart" component={ClientPart} />
         <Stack.Screen name="ConsultAllGroup" component={ConsultAllGroup}/>
+        <Stack.Screen name="Dashboard" component={Dashboard}/>
       </Stack.Navigator>
 //<AddGroupScreen></AddGroupScreen> 
 //<ClientPart> </ClientPart>
    
- 
+//  <Dashboar></Dashboar>
    
   );
 }
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-  
-});

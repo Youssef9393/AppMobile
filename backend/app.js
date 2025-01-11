@@ -18,7 +18,7 @@ mongoose.connect(mongoUrl).then(()=>{
 require("./UserDetails")
 const User=mongoose.model("UserInfo");
 
-require("./GroupDetails")
+require("./GroupDetails.js")
 const Group=mongoose.model("GroupInfo");
 
 app.get("/",(req,res)=>{
@@ -71,7 +71,7 @@ app.post("/login", async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        return res.status(500).send({ error: "Server error" });
+      return res.status(500).send({ error: "Server error" });
     }
 });
 
