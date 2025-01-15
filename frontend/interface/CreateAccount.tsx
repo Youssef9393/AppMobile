@@ -18,9 +18,7 @@ function AddAccount({ navigation }: { navigation: any } ) {
   const [PasswordVerify, setPasswordVerify] = useState(false);
   const [Username, setUsername] = useState('');
   const [UsernameVerify, setUsernameVerify] = useState(false);
-  const [Telephone, setTelephone] = useState('');
-  const [TelephoneVerify, setTelephoneVerify] = useState(false);
-
+ 
   // Handlers
   const handleUsernameChange = (text: string) => {
     setUsername(text);
@@ -38,28 +36,22 @@ function AddAccount({ navigation }: { navigation: any } ) {
     setPasswordVerify(text.length >= 8); // Example: Valid if 8+ characters
   };
 
-  const handleTelephoneChange = (text: string) => {
-    setTelephone(text);
-    const telephoneRegex = /^[0-9]{10,15}$/; // Example: Only numbers, 10-15 digits
-    setTelephoneVerify(telephoneRegex.test(text));
-  };
 
   // Submit handler
   const handleSubmit = () => {
-    if (!UsernameVerify || !EmailVerify || !PasswordVerify || !TelephoneVerify) {
+    if (!UsernameVerify || !EmailVerify || !PasswordVerify ) {
       alert('Please correct the errors before submitting.');
       return;
     }
 
     const userData = {
-      username: Username,
+      name: Username,
       email: Email,
       password: Password,
-      telephone: Telephone,
     };
 
     axios
-      .post('http://172.20.10.4:5001/register', userData)
+      .post('http://100.69.121.241:5000/auth/register', userData)
       .then(res => {
         // Show success or error message based on the server response
         if (res.data.status==="ok") {
@@ -69,7 +61,6 @@ function AddAccount({ navigation }: { navigation: any } ) {
           setUsername("");
           setEmail("");
           setPassword("");
-          setTelephone("");
          navigation.navigate('login');
         } else {
           Alert.alert('Error', res.data.data || 'Failed to create account.');
@@ -131,27 +122,14 @@ function AddAccount({ navigation }: { navigation: any } ) {
         <Text style={styles.errorText}>Password must be at least 8 characters long.</Text>
       )}
 
-      {/* Telephone Input */}
-      <View style={styles.inputContainer}>
-        <TextInput
-          value={Telephone}
-          onChangeText={handleTelephoneChange}
-          placeholder="Telephone"
-          placeholderTextColor="gray"
-          style={styles.input}
-          keyboardType="phone-pad"
-        />
-      </View>
-      {!TelephoneVerify && Telephone && (
-        <Text style={styles.errorText}>Telephone must be 10-15 numeric characters.</Text>
-      )}
+   
 
       {/* Create Account Button */}
       <TouchableOpacity
         style={styles.createButton}
         onPress={handleSubmit}
         disabled={
-          !UsernameVerify || !EmailVerify || !PasswordVerify || !TelephoneVerify
+          !UsernameVerify || !EmailVerify || !PasswordVerify 
         }
       >
         <Text style={styles.createButtonText}>Create Account</Text>

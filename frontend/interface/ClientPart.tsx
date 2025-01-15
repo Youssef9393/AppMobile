@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, Alert, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 const ExpenseCard = ({ navigation }: { navigation: any }) => {
   const [groupName] = useState('Groupe Aliane');
@@ -23,6 +25,19 @@ const ExpenseCard = ({ navigation }: { navigation: any }) => {
     people.reduce((total, person) => total + person.expense, 0)
   );
 
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const id = await AsyncStorage.getItem("userId");
+      if (id) {
+        setUserId(id);
+      }
+    };
+
+    fetchUserId();
+  }, []);
+
   const handleAddTransaction = () => {
     const newTransaction = {
       id: Math.random().toString(),
@@ -33,8 +48,14 @@ const ExpenseCard = ({ navigation }: { navigation: any }) => {
     setTotalBalance(totalBalance + newTransaction.amount);
   };
 
+
   const handleShareGroup = () => {
-    Alert.alert('Partage', `Vous avez partagé le groupe "${groupName}" avec succès !`);
+    if (userId) {
+      Clipboard.setString(userId); // Copy the userId to clipboard
+      Alert.alert('Partage', `Vous avez partagé le groupe "${userId}" avec succès !\nL\'ID a été copié dans votre presse-papiers.`);
+    } else {
+      Alert.alert('Erreur', 'ID utilisateur non trouvé.');
+    }
   };
 
   return (
@@ -96,12 +117,9 @@ const ExpenseCard = ({ navigation }: { navigation: any }) => {
           style={styles.cardButton}
           onPress={() => navigation.navigate('Dashboard', { people, totalBalance })}
         >
-          
           <Text style={styles.buttonText}>Ajouter Dépenses</Text>
         </TouchableOpacity>
-        
       </View>
-      
     </ScrollView>
   );
 };
@@ -125,14 +143,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
   },
-  personName:{
-    color:'black',
+  personName: {
+    color: 'black',
   },
-  personEmail:{
-    color:'blue',
+  personEmail: {
+    color: 'blue',
   },
-  personExpense:{
-    color:'green',
+  personExpense: {
+    color: 'green',
   },
   card: {
     backgroundColor: 'black',

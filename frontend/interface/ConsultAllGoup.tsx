@@ -47,7 +47,7 @@ const App = () => {
     console.log(`adminId envoyé : ${adminId}`); // Debug
 
     try {
-      const response = await axios.get("http://192.168.0.144:5000/groups", {
+      const response = await axios.get("http://100.69.121.241:5000/groups", {
         params: { adminId: adminId },
         headers: {
           "Content-Type": "application/json",
@@ -106,7 +106,7 @@ const App = () => {
           text: "Supprimer",
           onPress: async () => {
             try {
-              const response = await axios.delete(`http://192.168.0.144:5000/groups/${groupId}`);
+              const response = await axios.delete(`http://100.69.121.241:5000/groups/${groupId}`);
               if (response.status === 200) {
                 console.log("Groupe supprimé avec succès.");
                 setGroups(groups.filter((group) => group._id !== groupId));

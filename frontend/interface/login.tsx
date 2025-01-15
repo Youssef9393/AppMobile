@@ -10,6 +10,7 @@ import {
   Image,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function LoginScreen({ navigation }: { navigation: any }) {
   const [Email, setEmail] = useState('');
@@ -30,10 +31,11 @@ function LoginScreen({ navigation }: { navigation: any }) {
     };
 
     try {
-      const res = await axios.post('http://172.20.10.4:5001/login', userData);
+      const res = await axios.post('http://100.69.121.241:5000/auth/login', userData);
 
       if (res.data.status === 'ok') {
         console.log(res.data);
+        await AsyncStorage.setItem('userId', res.data.data);
         Alert.alert('Login Successful!');
         navigation.navigate('home');
       } else {

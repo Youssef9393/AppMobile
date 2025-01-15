@@ -63,13 +63,7 @@ const Home = ({ navigation }: { navigation: any }) =>{
   "
     onPress={() => navigation.navigate('JoinGroupScreen')}
    /> 
-   
-    <GroupCard 
-    title="Participate In Groupe"
-    descriptions="Write you ID 
-  "
-    onPress={() => navigation.navigate('JoinGroupScreen')}
-   /> 
+  
 
    </ScrollView>
  
@@ -259,7 +253,7 @@ const styles = StyleSheet.create({
     marginVertical:10,
     width: '100%',
     maxWidth: 400,
-    backgroundColor: 'purple',
+    backgroundColor: 'lightblue',
     borderRadius: 8,
     padding: 20,
     shadowColor: '#000',
