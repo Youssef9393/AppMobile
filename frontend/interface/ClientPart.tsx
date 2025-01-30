@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, Alert, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Clipboard from '@react-native-clipboard/clipboard';
+import axios from 'axios';
 
 const ExpenseCard = ({ navigation }: { navigation: any }) => {
   const [groupName] = useState('Groupe Aliane');
@@ -27,16 +27,36 @@ const ExpenseCard = ({ navigation }: { navigation: any }) => {
 
   const [userId, setUserId] = useState('');
 
+  // useEffect(() => {
+  //   const fetchUserId = async () => {
+      
+  //     if (id) {
+  //       setUserId(id);
+  //     }
+  //   };
+
+  //   fetchUserId();
+  // }, []);
+ 
   useEffect(() => {
-    const fetchUserId = async () => {
-      const id = await AsyncStorage.getItem("userId");
-      if (id) {
-        setUserId(id);
+    const fetchData = async () => {
+      try {
+        const id = await AsyncStorage.getItem("userId");
+        console.log(id)
+        
+        const response = await axios.get(`http://172.20.10.4:5000/groups?adminId=${id}`);
+
+        // Assuming the price is in the 'price' field for each group
+        const total = response.data.reduce((sum :any, group:any) => sum + group.price, 0);
+        const name=response.data; // Sum up all the group prices
+        setTotalBalance(total);
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
     };
 
-    fetchUserId();
-  }, []);
+    fetchData();
+  }, []); // Empty dependency array 
 
   const handleAddTransaction = () => {
     const newTransaction = {
@@ -49,20 +69,20 @@ const ExpenseCard = ({ navigation }: { navigation: any }) => {
   };
 
 
-  const handleShareGroup = () => {
-    if (userId) {
-      Clipboard.setString(userId); // Copy the userId to clipboard
-      Alert.alert('Partage', `Vous avez partagé le groupe "${userId}" avec succès !\nL\'ID a été copié dans votre presse-papiers.`);
-    } else {
-      Alert.alert('Erreur', 'ID utilisateur non trouvé.');
-    }
-  };
+  // const handleShareGroup = () => {
+  //   if (userId) {
+  //     Clipboard.setString(userId); // Copy the userId to clipboard
+  //     Alert.alert('Partage', `Vous avez partagé le groupe "${userId}" avec succès !\nL\'ID a été copié dans votre presse-papiers.`);
+  //   } else {
+  //     Alert.alert('Erreur', 'ID utilisateur non trouvé.');
+  //   }
+  // };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.groupHeader}>
         <Text style={styles.groupName}>{groupName}</Text>
-        <TouchableOpacity onPress={handleShareGroup}>
+        <TouchableOpacity  >
           <Icon name="share-social-outline" size={24} color="#007bff" />
         </TouchableOpacity>
       </View>

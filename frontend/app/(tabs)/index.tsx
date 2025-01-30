@@ -30,11 +30,7 @@ export default function App() {
         <Stack.Screen name="ConsultAllGroup" component={ConsultAllGroup}/>
         <Stack.Screen name="Dashboard" component={Dashboard}/>
       </Stack.Navigator>
-    
-  //<AddGroupScreen></AddGroupScreen> 
-//<ClientPart> </ClientPart>
-  //  <ConsultAllGroup></ConsultAllGroup>
-//  <Dashboar></Dashboar>
+     //<ClientPart></ClientPart>
    
   );
 }

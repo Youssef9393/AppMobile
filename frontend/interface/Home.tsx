@@ -8,7 +8,7 @@ import AddGroupScreen from '@/interface/AddGroup';
 import JoinGroupScreen from './JoinGroup';
 import { ScrollView } from 'react-native-gesture-handler';
 import LoginScreen from './login';
-
+import ClientPart from '@/interface/ClientPart';
 const Drawer = createDrawerNavigator();
 
 const HorizontalLine = () => {
@@ -61,7 +61,7 @@ const Home = ({ navigation }: { navigation: any }) =>{
     title="About Service"
     descriptions="View the latest events
   "
-    onPress={() => navigation.navigate('JoinGroupScreen')}
+    onPress={() => navigation.navigate('ClientPart')}
    /> 
   
 
