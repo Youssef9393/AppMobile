@@ -51,19 +51,12 @@ export default function TabLayout() {
       <Tabs.Screen
         name="explore"
         options={{
-          title: 'News',
+          title: 'Dashboard',
           tabBarIcon: ({ color }) =>  <Ionicons name="newspaper-outline" size={28} color="color" />,
         }}
       />
     
-    <Tabs.Screen
-        name="Profil"
-        options={{
-          title: 'Profil',
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="person-circle-outline" size={28} color="color" />),
-        }}
-      />
+  
     </Tabs>
   );
 }
