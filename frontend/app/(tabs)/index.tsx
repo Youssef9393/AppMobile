@@ -10,6 +10,7 @@ import JoinGroupScreen from '@/interface/JoinGroup';
 import ClientPart from '@/interface/ClientPart';
 import ConsultAllGroup from '@/interface/ConsultAllGoup';
 import Dashboard from '@/interface/Dashboard';
+import Chat from '@/interface/Chatbot';
 import Search from './Search';
 
 const Stack = createStackNavigator(); 
@@ -29,6 +30,7 @@ export default function App() {
         <Stack.Screen name="ClientPart" component={ClientPart} />
         <Stack.Screen name="ConsultAllGroup" component={ConsultAllGroup}/>
         <Stack.Screen name="Dashboard" component={Dashboard}/>
+        <Stack.Screen name="Chat" component={Chat} />
       </Stack.Navigator>
      //<ClientPart></ClientPart>
    

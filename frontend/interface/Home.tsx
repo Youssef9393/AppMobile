@@ -1,5 +1,5 @@
 import React ,{ useState }from 'react';
-import { View, Text, StyleSheet,Alert,TextInput,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet,Alert,TextInput,TouchableOpacity,Image } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -9,6 +9,8 @@ import JoinGroupScreen from './JoinGroup';
 import { ScrollView } from 'react-native-gesture-handler';
 import LoginScreen from './login';
 import ClientPart from '@/interface/ClientPart';
+import Chat from '@/interface/Chatbot';
+import { black } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 const Drawer = createDrawerNavigator();
 
 const HorizontalLine = () => {
@@ -35,38 +37,50 @@ const GroupCard: React.FC<GroupCardProps> = ({ title, descriptions, onPress }) =
   
 
 const Home = ({ navigation }: { navigation: any }) =>{
- 
-  return (
-    <ScrollView style={styles.Groupcard} >
-   
-   <GroupCard 
-    title="Ajouter Groupe"
-    descriptions="Si ne vous avez pas un group creer a nouveaux 
-    "
-    onPress={() => navigation.navigate('AddGroupScreen')}
-   /> 
-    <GroupCard 
-    title="Consulter les Groupes"
-    descriptions="Write you ID 
-  "
-    onPress={() => navigation.navigate('ConsultAllGroup')}
-   /> 
-    <GroupCard 
-    title="Participate In Groupe"
-    descriptions="Write you ID 
-  "
-    onPress={() => navigation.navigate('JoinGroupScreen')}
-   /> 
-    <GroupCard 
-    title="About Service"
-    descriptions="View the latest events
-  "
-    onPress={() => navigation.navigate('ClientPart')}
-   /> 
+  const chatBotbtn = () => (
+    <TouchableOpacity onPress={() => navigation.navigate('Chat')} style={{borderRadius:30}}>
+      <Image style={{ height: 50, width: 50 ,marginHorizontal:330}} source={require('C:/AppMobile/frontend/assets/images/gpt.jpeg')} />
+      
+    </TouchableOpacity>
+  );
   
+  return (
 
-   </ScrollView>
- 
+    <View style={styles.container}>
+    {/* 🔹 Bouton Chatbot fixé au-dessus */}
+   
+  
+    {/* 🔹 ScrollView contenant les GroupCards */}
+    <ScrollView style={styles.Groupcard}>
+      <GroupCard 
+        title="Ajouter Groupe"
+        descriptions="Si ne vous avez pas un groupe, créez-en un nouveau."
+        onPress={() => navigation.navigate('AddGroupScreen')}
+      /> 
+  
+      <GroupCard 
+        title="Consulter les Groupes"
+        descriptions="Write your ID"
+        onPress={() => navigation.navigate('ConsultAllGroup')}
+      /> 
+  
+      <GroupCard 
+        title="Participate In Group"
+        descriptions="Write your ID"
+        onPress={() => navigation.navigate('JoinGroupScreen')}
+      /> 
+  
+      <GroupCard 
+        title="About Service"
+        descriptions="View the latest events"
+        onPress={() => navigation.navigate('ClientPart')}
+      /> 
+    </ScrollView>
+    <View style={styles.fixedChatBotBtn}>
+      {chatBotbtn()}
+    </View>
+  </View>
+  
   );
 };
 
@@ -200,9 +214,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: 4,
     backgroundColor: '#f8f9fa',
+  }, fixedChatBotBtn: {
+    position: 'absolute', 
+    top: 490, // Distance depuis le haut
+    right: -300, // Distance depuis la droite
+    zIndex: 10, // S'assurer qu'il est au-dessus du ScrollView
   },
+ 
   title1: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -252,9 +272,9 @@ const styles = StyleSheet.create({
   card: {
     marginVertical:10,
     width: '100%',
-    maxWidth: 400,
+    maxWidth: 386,
     backgroundColor: 'lightblue',
-    borderRadius: 8,
+    borderRadius: 19,
     padding: 20,
     shadowColor: '#000',
     shadowOpacity: 0.1,
