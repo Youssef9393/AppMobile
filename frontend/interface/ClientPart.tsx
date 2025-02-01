@@ -1,11 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, Alert, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 
 const ExpenseCard = ({ navigation }: { navigation: any }) => {
-  const [groupName] = useState('Groupe Aliane');
   const [people, setPeople] = useState([
     { id: '1', name: 'Alice', email: 'alice@example.com', expense: 120 },
     { id: '2', name: 'Bob', email: 'bob@example.com', expense: 250 },
@@ -13,42 +12,34 @@ const ExpenseCard = ({ navigation }: { navigation: any }) => {
   ]);
 
   const [transactions, setTransactions] = useState([
-    { id: '1', description: 'khali a paye le déjeuner', amount: 50 },
+    { id: '1', description: 'khali a payé le déjeuner', amount: 50 },
     { id: '2', description: 'nadia a payé le transport', amount: 30 },
-    { id: '1', description: 'Ahmed a payé le déjeuner', amount: 10 },
-    { id: '2', description: 'Ala a payé le transport', amount: 30 },
-    { id: '1', description: 'mohamed a payé le déjeuner', amount: 500 },
-    { id: '2', description: 'Bob a payé le transport', amount: 300 },
+    { id: '3', description: 'Ahmed a payé le déjeuner', amount: 10 },
+    { id: '4', description: 'Ala a payé le transport', amount: 30 },
+    { id: '5', description: 'Mohamed a payé le déjeuner', amount: 500 },
+    { id: '6', description: 'Bob a payé le transport', amount: 300 },
   ]);
 
   const [totalBalance, setTotalBalance] = useState(() =>
     people.reduce((total, person) => total + person.expense, 0)
   );
 
-  const [userId, setUserId] = useState('');
+  const [categoryVisibility, setCategoryVisibility] = useState({
+    peopleAndExpenses: false,
+    transactions: false,
+    autres: false,
+    membres: false, // Added for Membres category
+  });
 
-  // useEffect(() => {
-  //   const fetchUserId = async () => {
-      
-  //     if (id) {
-  //       setUserId(id);
-  //     }
-  //   };
-
-  //   fetchUserId();
-  // }, []);
- 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const id = await AsyncStorage.getItem("userId");
-        console.log(id)
-        
+        const id = await AsyncStorage.getItem('userId');
+        console.log(id);
+
         const response = await axios.get(`http://172.20.10.4:5000/groups?adminId=${id}`);
 
-        // Assuming the price is in the 'price' field for each group
-        const total = response.data.reduce((sum :any, group:any) => sum + group.price, 0);
-        const name=response.data; // Sum up all the group prices
+        const total = response.data.reduce((sum: any, group: any) => sum + group.price, 0);
         setTotalBalance(total);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -56,7 +47,7 @@ const ExpenseCard = ({ navigation }: { navigation: any }) => {
     };
 
     fetchData();
-  }, []); // Empty dependency array 
+  }, []);
 
   const handleAddTransaction = () => {
     const newTransaction = {
@@ -68,78 +59,115 @@ const ExpenseCard = ({ navigation }: { navigation: any }) => {
     setTotalBalance(totalBalance + newTransaction.amount);
   };
 
-
-  // const handleShareGroup = () => {
-  //   if (userId) {
-  //     Clipboard.setString(userId); // Copy the userId to clipboard
-  //     Alert.alert('Partage', `Vous avez partagé le groupe "${userId}" avec succès !\nL\'ID a été copié dans votre presse-papiers.`);
-  //   } else {
-  //     Alert.alert('Erreur', 'ID utilisateur non trouvé.');
-  //   }
-  // };
+  const toggleCategoryVisibility = (category: string) => {
+    setCategoryVisibility((prevState) => ({
+      ...prevState,
+      peopleAndExpenses: category === 'peopleAndExpenses' ? !prevState.peopleAndExpenses : false,
+      transactions: category === 'transactions' ? !prevState.transactions : false,
+      autres: category === 'autres' ? !prevState.autres : false,
+      membres: category === 'membres' ? !prevState.membres : false,
+    }));
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.groupHeader}>
-        <Text style={styles.groupName}>{groupName}</Text>
-        <TouchableOpacity  >
+        <Text style={styles.groupName}>Groupe Aliane</Text>
+        <TouchableOpacity>
           <Icon name="share-social-outline" size={24} color="#007bff" />
         </TouchableOpacity>
       </View>
-
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Solde Total</Text>
         <Text style={styles.totalBalance}>{totalBalance} €</Text>
       </View>
 
-      <Text style={styles.sectionTitle}>Personnes et Dépenses</Text>
-      <FlatList
-        data={people}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.personItem}>
-            <View>
-              <Text style={styles.personName}>{item.name}</Text>
-              <Text style={styles.personEmail}>{item.email}</Text>
-            </View>
-            <Text style={styles.personExpense}>{item.expense} €</Text>
-          </View>
-        )}
-      />
-
-      <Text style={styles.sectionTitle}>Transactions</Text>
-      <FlatList
-        data={transactions}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.transactionItem}>
-            <Text style={styles.transactionDescription}>{item.description}</Text>
-            <Text style={styles.transactionAmount}>+ {item.amount} €</Text>
-          </View>
-        )}
-      />
-
-      <TouchableOpacity style={styles.addTransactionButton} onPress={handleAddTransaction}>
-        <Text style={styles.addTransactionText}>Ajouter une Transaction</Text>
-      </TouchableOpacity>
-
-      <View style={styles.button}>
-        <TouchableOpacity style={styles.cardButton} onPress={() => {}}>
-          <Text style={styles.buttonText}>Ajouter une Personne</Text>
+      <View style={styles.categoryButtonsContainer}>
+        {/* Added Membres category button */}
+        <TouchableOpacity onPress={() => toggleCategoryVisibility('membres')} style={styles.categoryButton}>
+          <Text style={styles.categoryButtonText}>Membres</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.cardButton}
-          onPress={() => navigation.navigate('Dashboard', { people, totalBalance })}
-        >
-          <Text style={styles.buttonText}>Tableau de Bord</Text>
+        <TouchableOpacity onPress={() => toggleCategoryVisibility('peopleAndExpenses')} style={styles.categoryButton}>
+          <Text style={styles.categoryButtonText}>Dépenses</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.cardButton}
-          onPress={() => navigation.navigate('Dashboard', { people, totalBalance })}
-        >
-          <Text style={styles.buttonText}>Ajouter Dépenses</Text>
+        <TouchableOpacity onPress={() => toggleCategoryVisibility('transactions')} style={styles.categoryButton}>
+          <Text style={styles.categoryButtonText}>Transactions</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => toggleCategoryVisibility('autres')} style={styles.categoryButton}>
+          <Text style={styles.categoryButtonText}>Autres</Text>
         </TouchableOpacity>
       </View>
+
+      {/* People and Expenses Category */}
+      {categoryVisibility.peopleAndExpenses && (
+        <FlatList
+          data={people}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.personItem}>
+              <View>
+                <Text style={styles.personName}>{item.name}</Text>
+                <Text style={styles.personEmail}>{item.email}</Text>
+              </View>
+              <Text style={styles.personExpense}>{item.expense} €</Text>
+            </View>
+          )}
+        />
+      )}
+
+      {/* Transactions Category */}
+      {categoryVisibility.transactions && (
+        <FlatList
+          data={transactions}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.transactionItem}>
+              <Text style={styles.transactionDescription}>{item.description}</Text>
+              <Text style={styles.transactionAmount}>+ {item.amount} €</Text>
+            </View>
+          )}
+        />
+      )}
+
+      {/* Membres Category */}
+      {categoryVisibility.membres && (
+        <FlatList
+          data={people} // Using the same people list, but this can be adjusted as needed
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.personItem}>
+              <View>
+                <Text style={styles.personName}>{item.name}</Text>
+                <Text style={styles.personEmail}>{item.email}</Text>
+              </View>
+            </View>
+          )}
+        />
+      )}
+
+      {/* Autres Category */}
+      {categoryVisibility.autres && (
+        <View style={styles.autresContainer}>
+          <TouchableOpacity style={styles.cardButton} onPress={handleAddTransaction}>
+            <Text style={styles.buttonText}>Ajouter une Transaction</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.cardButton} onPress={() => {}}>
+            <Text style={styles.buttonText}>Ajouter une Personne</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.cardButton}
+            onPress={() => navigation.navigate('Dashboard', { people, totalBalance })}
+          >
+            <Text style={styles.buttonText}>Tableau de Bord</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.cardButton}
+            onPress={() => navigation.navigate('Dashboard', { people, totalBalance })}
+          >
+            <Text style={styles.buttonText}>Ajouter Dépenses</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </ScrollView>
   );
 };
@@ -163,14 +191,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
   },
-  personName: {
-    color: 'black',
+  categoryButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 20,
   },
-  personEmail: {
-    color: 'blue',
+  categoryButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    backgroundColor: 'black',
+    borderRadius: 20,
+    alignItems: 'center',
+    marginHorizontal: 1,
   },
-  personExpense: {
-    color: 'green',
+  categoryButtonText: {
+    color: '#fff',
+    fontSize: 16,
   },
   card: {
     backgroundColor: 'black',
@@ -187,12 +223,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#fff',
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginVertical: 10,
-    color: '#555',
   },
   personItem: {
     flexDirection: 'row',
@@ -217,22 +247,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#28a745',
   },
-  addTransactionButton: {
-    backgroundColor: '#28a745',
-    paddingVertical: 15,
-    borderRadius: 50,
-    alignItems: 'center',
-    marginVertical: 20,
-  },
-  addTransactionText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  button: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 0,
+  autresContainer: {
+    paddingVertical: 20,
   },
   cardButton: {
     backgroundColor: 'black',
@@ -240,8 +256,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 15,
     alignItems: 'center',
-    flex: 1,
-    marginHorizontal: 5,
+    marginVertical: 10,
   },
   buttonText: {
     color: '#fff',

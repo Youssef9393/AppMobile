@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   userMessage: {
-    backgroundColor: 'black',
+    backgroundColor: 'lightgreen',
     alignSelf: 'flex-end',
   },
   geminiMessage: {
@@ -145,10 +145,10 @@ const styles = StyleSheet.create({
     color:'green'
   },
   button: {
-    backgroundColor: 'blue',
+    backgroundColor: 'lightgreen',
     borderRadius: 20,
     paddingVertical: 14,
-    paddingHorizontal: 15,
+    paddingHorizontal: 25,
   },
   buttonText: {
     color: 'white',

@@ -5,9 +5,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import AddGroupScreen from '@/interface/AddGroup';
+import ConsultAllGroup from '@/interface/ConsultAllGoup';
 import JoinGroupScreen from './JoinGroup';
 import { ScrollView } from 'react-native-gesture-handler';
 import LoginScreen from './login';
+import dec from 'react-native-vector-icons/FontAwesome'; 
 import ClientPart from '@/interface/ClientPart';
 import Chat from '@/interface/Chatbot';
 import { black } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
@@ -29,7 +31,7 @@ const GroupCard: React.FC<GroupCardProps> = ({ title, descriptions, onPress }) =
         <Text style={styles.elem1} >{title}</Text>
         <Text style={styles.elem2}>{descriptions}</Text>
         <TouchableOpacity style={styles.button} onPress={onPress}>
-        <Text style={styles.buttonText}>Allez</Text>
+        <Text style={styles.buttonText}>cliquez ici</Text>
       </TouchableOpacity>
       </View>
     );
@@ -53,20 +55,20 @@ const Home = ({ navigation }: { navigation: any }) =>{
     {/* 🔹 ScrollView contenant les GroupCards */}
     <ScrollView style={styles.Groupcard}>
       <GroupCard 
-        title="Ajouter Groupe"
+        title="Créer un Groupe"
         descriptions="Si ne vous avez pas un groupe, créez-en un nouveau."
         onPress={() => navigation.navigate('AddGroupScreen')}
       /> 
   
       <GroupCard 
         title="Consulter les Groupes"
-        descriptions="Write your ID"
+        descriptions="consulter par ID"
         onPress={() => navigation.navigate('ConsultAllGroup')}
       /> 
   
       <GroupCard 
         title="Participate In Group"
-        descriptions="Write your ID"
+        descriptions="consulter par ID"
         onPress={() => navigation.navigate('JoinGroupScreen')}
       /> 
   
@@ -92,9 +94,11 @@ const MenuBar = () => {
     <Drawer.Navigator
       initialRouteName="Home"
       screenOptions={{
+        headerStyle: { backgroundColor: 'lightgreen',marginHorizontal:40 },
+        headerTintColor: '#fff',
         drawerStyle: {
           backgroundColor: 'black',
-          width: 240,
+          width: 300,
         },
         drawerActiveTintColor: 'blue',
         drawerInactiveTintColor: 'white',
@@ -155,16 +159,15 @@ const MenuBar = () => {
           ),
         }}
       />
-      <Drawer.Screen
-        name="Aide"
-        component={JoinGroupScreen} // Replace with your help screen component
+         <Drawer.Screen
+        name="Consulter les Groupes"
+        component={ConsultAllGroup}
         options={{
           drawerIcon: ({ color, size }) => (
-            <Icon name="help-circle-outline" size={size} color={color} /> // Icon for "Aide"
-           ),
-         }}
+            <Icon name="people-outline" size={size} color={color} />
+          ),
+        }}
       />
-
        <Drawer.Screen
         name="Espace Client"
         component={JoinGroupScreen} // Replace with your help screen component
@@ -175,16 +178,27 @@ const MenuBar = () => {
          }}
       />
       <Drawer.Screen
-        name="line"
-        component={HorizontalLine}
+        name="Aide"
+        component={JoinGroupScreen} // Replace with your help screen component
         options={{
-          drawerLabel: () => (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <View style={{ flex: 1, height: 1, backgroundColor: '#ccc' }} />
-            </View>
-          )
-        }}
+          drawerIcon: ({ color, size }) => (
+            <Icon name="help-circle-outline" size={size} color={color} /> // Icon for "Aide"
+           ),
+         }}
       />
+
+<Drawer.Screen
+  name="line"
+  component={HorizontalLine}
+  options={{
+    drawerLabel: () => (
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ flex: 1, height: 1, backgroundColor: '#ccc' }} />
+      </View>
+    ),
+   
+  }}
+/>
       {/* <View><br></br></View> */}
       <Drawer.Screen
       name="Déconnexion"
@@ -241,9 +255,9 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: 'black',
-    paddingVertical: 15,
+    paddingVertical: 20,
     paddingHorizontal: 20,
-    borderRadius: 8,
+    borderRadius: 28,
     alignItems: 'center',
     width: '100%',
   },
@@ -270,12 +284,12 @@ const styles = StyleSheet.create({
     width: '100%', // Full width
   },
   card: {
-    marginVertical:10,
+    marginVertical:15,
     width: '100%',
     maxWidth: 386,
-    backgroundColor: 'lightblue',
+    backgroundColor: 'lightgreen',
     borderRadius: 19,
-    padding: 20,
+    padding: 14,
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 10,
@@ -289,7 +303,10 @@ const styles = StyleSheet.create({
   },
   elem2: {
     fontSize: 15,
-    color: 'white',
+    color: 'violet',
+    fontWeight: 'bold',
+    marginVertical: 15,
+    marginHorizontal: 10,
   },
   Groupcard: {
     backgroundColor: '',

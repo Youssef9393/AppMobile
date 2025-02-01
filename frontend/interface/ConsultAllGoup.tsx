@@ -47,7 +47,7 @@ const App = () => {
     console.log(`adminId envoyé : ${adminId}`); // Debug
 
     try {
-      const response = await axios.get("http://172.20.10.4:5000/groups", {
+      const response = await axios.get("http://100.69.123.66:5000/groups", {
         params: { adminId: adminId },
         headers: {
           "Content-Type": "application/json",
