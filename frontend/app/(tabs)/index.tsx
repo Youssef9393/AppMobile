@@ -19,21 +19,21 @@ export default function App() {
   return (
 
     
-//     <Stack.Navigator initialRouteName="login" screenOptions={{ headerStyle: { backgroundColor: 'lightgreen' } }}>
-//   <Stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }} />
-//   <Stack.Screen name="Search" component={Search} />
-//   <Stack.Screen name="createaccount" component={AddAccount} />
-//   <Stack.Screen name="checkemail" component={ResetPasswordScreen} />
-//   <Stack.Screen name="home" component={HomePage} options={{ headerShown: false }} />
-//   <Stack.Screen name="AddGroupScreen" component={AddGroupScreen} />
-//   <Stack.Screen name="JoinGroupScreen" component={JoinGroupScreen} />
-//   <Stack.Screen name="ClientPart" component={ClientPart} />
-//   <Stack.Screen name="ConsultAllGroup" component={ConsultAllGroup} />
-//   <Stack.Screen name="Dashboard" component={Dashboard} />
-//   <Stack.Screen name="Chat" component={Chat} />
-// </Stack.Navigator>
+    <Stack.Navigator initialRouteName="login" screenOptions={{ headerStyle: { backgroundColor: 'lightgreen' } }}>
+  <Stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }} />
+  <Stack.Screen name="Search" component={Search} />
+  <Stack.Screen name="createaccount" component={AddAccount} />
+  <Stack.Screen name="checkemail" component={ResetPasswordScreen} />
+  <Stack.Screen name="home" component={HomePage} options={{ headerShown: false }} />
+  <Stack.Screen name="AddGroupScreen" component={AddGroupScreen} />
+  <Stack.Screen name="JoinGroupScreen" component={JoinGroupScreen} />
+  <Stack.Screen name="ClientPart" component={ClientPart} />
+  <Stack.Screen name="ConsultAllGroup" component={ConsultAllGroup} />
+  <Stack.Screen name="Dashboard" component={Dashboard} />
+  <Stack.Screen name="Chat" component={Chat} />
+</Stack.Navigator>
 
-     <ClientPart></ClientPart>
+    //  <ClientPart></ClientPart>
    
   );
 }
