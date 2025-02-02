@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   categoryButton: {
     paddingVertical: 10,
     paddingHorizontal: 14,
-    backgroundColor: 'black',
+    backgroundColor: 'green',
     borderRadius: 20,
     alignItems: 'center',
     marginHorizontal: 1,
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   card: {
-    backgroundColor: 'black',
+    backgroundColor: 'green',
     borderRadius: 10,
     padding: 20,
     marginBottom: 20,
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   cardButton: {
-    backgroundColor: 'black',
+    backgroundColor: 'lightgreen',
     borderRadius: 30,
     paddingVertical: 20,
     paddingHorizontal: 15,

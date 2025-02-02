@@ -14,7 +14,7 @@ interface CardGroupProps {
 }
 
 const CardGroup = ({ nameGroup, montant, onContact, onConsult, onDelete }: CardGroupProps) => (
-  <Card style={styles.card}>
+  <Card style={[styles.card, { backgroundColor: 'black',borderRadius:20 }]}>
     <Card.Content>
       <View style={styles.row}>
         <Text style={styles.nameGroup}>{nameGroup}</Text>
@@ -47,7 +47,7 @@ const App = () => {
     console.log(`adminId envoyé : ${adminId}`); // Debug
 
     try {
-      const response = await axios.get("http://100.69.123.66:5000/groups", {
+      const response = await axios.get("http://100.69.121.82:5000/groups", {
         params: { adminId: adminId },
         headers: {
           "Content-Type": "application/json",
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   nameGroup: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#000",
+    color: "white", // White text color for better visibility on black background
     flex: 1,
     textAlign: "left",
   },

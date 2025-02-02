@@ -9,8 +9,9 @@ import {
   ScrollView,
 } from 'react-native';
 import axios from 'axios';
-import { navigate } from 'expo-router/build/global-state/routing';
-function AddAccount({ navigation }: { navigation: any } ) {
+import { MaterialCommunityIcons } from 'react-native-vector-icons'; // Import the icon set
+
+function AddAccount({ navigation }: { navigation: any }) {
   // State variables
   const [Email, setEmail] = useState('');
   const [EmailVerify, setEmailVerify] = useState(false);
@@ -18,7 +19,7 @@ function AddAccount({ navigation }: { navigation: any } ) {
   const [PasswordVerify, setPasswordVerify] = useState(false);
   const [Username, setUsername] = useState('');
   const [UsernameVerify, setUsernameVerify] = useState(false);
- 
+
   // Handlers
   const handleUsernameChange = (text: string) => {
     setUsername(text);
@@ -35,7 +36,6 @@ function AddAccount({ navigation }: { navigation: any } ) {
     setPassword(text);
     setPasswordVerify(text.length >= 8); // Example: Valid if 8+ characters
   };
-
 
   // Submit handler
   const handleSubmit = () => {
@@ -54,14 +54,14 @@ function AddAccount({ navigation }: { navigation: any } ) {
       .post('http://100.69.121.241:5000/auth/register', userData)
       .then(res => {
         // Show success or error message based on the server response
-        if (res.data.status==="ok") {
+        if (res.data.status === "ok") {
           Alert.alert('Success', 'Account created successfully!', [
             { text: 'OK', onPress: () => console.log('Account Created') },
           ]);
           setUsername("");
           setEmail("");
           setPassword("");
-         navigation.navigate('login');
+          navigation.navigate('login');
         } else {
           Alert.alert('Error', res.data.data || 'Failed to create account.');
         }
@@ -71,15 +71,15 @@ function AddAccount({ navigation }: { navigation: any } ) {
         console.error('Error:', e.message);
       });
   };
-      
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* Title */}
-      <Text style={styles.title}>Create Account</Text>
+      <Text style={styles.title}>Veuillez créer un nouveau compte</Text>
 
       {/* Username Input */}
       <View style={styles.inputContainer}>
+        <MaterialCommunityIcons name="account" size={24} color="black" style={styles.icon} />
         <TextInput
           value={Username}
           onChangeText={handleUsernameChange}
@@ -94,6 +94,7 @@ function AddAccount({ navigation }: { navigation: any } ) {
 
       {/* Email Input */}
       <View style={styles.inputContainer}>
+        <MaterialCommunityIcons name="email" size={24} color="black" style={styles.icon} />
         <TextInput
           value={Email}
           onChangeText={handleEmailChange}
@@ -109,6 +110,7 @@ function AddAccount({ navigation }: { navigation: any } ) {
 
       {/* Password Input */}
       <View style={styles.inputContainer}>
+        <MaterialCommunityIcons name="lock" size={24} color="black" style={styles.icon} />
         <TextInput
           value={Password}
           onChangeText={handlePasswordChange}
@@ -122,17 +124,13 @@ function AddAccount({ navigation }: { navigation: any } ) {
         <Text style={styles.errorText}>Password must be at least 8 characters long.</Text>
       )}
 
-   
-
       {/* Create Account Button */}
       <TouchableOpacity
         style={styles.createButton}
         onPress={handleSubmit}
-        disabled={
-          !UsernameVerify || !EmailVerify || !PasswordVerify 
-        }
+        disabled={!UsernameVerify || !EmailVerify || !PasswordVerify}
       >
-        <Text style={styles.createButtonText}>Create Account</Text>
+        <Text style={styles.createButtonText}>Ajouter compte </Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -140,35 +138,35 @@ function AddAccount({ navigation }: { navigation: any } ) {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1,
+    backgroundColor: 'white',
+    paddingVertical:111,
     padding: 20,
   },
   title: {
-    fontSize: 32,
+    fontSize: 23,
     fontWeight: 'bold',
-    marginBottom: 40,
-    color: '#000',
+    marginBottom: 30,
+    marginLeft: 10,
+    color: 'lightgreen',
   },
   inputContainer: {
-    flexDirection: 'row',
+    flexDirection: 'row', // Align icon and input field horizontally
     alignItems: 'center',
-    backgroundColor: 'orange',
-    borderRadius: 100,
-    paddingHorizontal: 10,
-    marginBottom: 15,
-    width: '100%',
-    height: 50,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
+    marginBottom: 20,
+    borderColor: 'lightgreen',
+    borderWidth: 2,
+    borderRadius: 18,
+    paddingHorizontal: 15,
+    backgroundColor: '#fff',
+    height: 50, // Set the height of input container
+  },
+  icon: {
+    marginRight: 10, // Add space between icon and input field
   },
   input: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 18, // Adjust text size
     color: 'black',
   },
   errorText: {
@@ -177,15 +175,13 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   createButton: {
-    backgroundColor: 'orange',
-    borderRadius: 100,
-    width: '70%',
+    backgroundColor: 'lightgreen',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 18,
     alignItems: 'center',
-    justifyContent: 'center',
-    height: 50,
-    marginTop: 30,
-    marginLeft:200,
-    margin:100,
+    width: '100%',
+    marginTop: 20,
   },
   createButtonText: {
     color: '#FFF',

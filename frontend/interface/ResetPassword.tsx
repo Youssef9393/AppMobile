@@ -1,35 +1,39 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { MaterialCommunityIcons } from 'react-native-vector-icons'; // Importer les icônes
 
 export default function ResetPasswordScreen() {
   const [email, setEmail] = useState('');
 
-  // Function to handle password reset
+  // Fonction pour réinitialiser le mot de passe
   const handleResetPassword = () => {
     if (email === '') {
       Alert.alert('Error', 'Please enter your email');
       return;
     }
 
-    // Here you would integrate the API to handle password reset (e.g., sending an email).
-    // For now, we just show a success message.
+    // Ici, vous intégreriez l'API pour gérer la réinitialisation du mot de passe (par exemple, en envoyant un e-mail).
+    // Pour l'instant, on affiche juste un message de succès.
 
     Alert.alert('Success', 'Password reset link sent to your email!');
-    setEmail(''); // Clear the input field
+    setEmail(''); // Effacer le champ de saisie
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Reset Password</Text>
+      <Text style={styles.title}>Vérifiez votre email</Text>
 
       {/* Email Input */}
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your email"
-        keyboardType="email-address"
-        value={email}
-        onChangeText={setEmail}
-      />
+      <View style={styles.inputContainer}>
+        <MaterialCommunityIcons name="email-outline" size={24} color="black" />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your email"
+          keyboardType="email-address"
+          value={email}
+          onChangeText={setEmail}
+        />
+      </View>
 
       {/* Submit Button */}
       <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
@@ -42,34 +46,43 @@ export default function ResetPasswordScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#f2f2f2',
     padding: 20,
+    marginVertical:155,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#333',
+    color: 'lightgreen',
+    marginLeft: 10, // Marge à gauche pour le titre  
   },
-  input: {
-    width: '100%',
-    height: 50,
-    borderColor: '#ccc',
+  inputContainer: {
+    flexDirection: 'row', // Alignement horizontal pour l'icône et le champ de saisie
+    alignItems: 'center',
+    borderColor: 'lightgreen',
     borderWidth: 1,
-    borderRadius: 8,
     paddingLeft: 10,
     marginBottom: 20,
+    width: '100%',
+    marginVertical:20,
+    borderRadius: 25,
+  },
+  input: {
+    flex: 1,
+    height: 50,
     fontSize: 16,
+    color: 'black',
+    paddingLeft: 10, // Espace entre l'icône et le texte
   },
   button: {
-    backgroundColor: '#007BFF',
+    backgroundColor: 'lightgreen', // Bouton de couleur vert clair
     width: '100%',
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 8,
+    borderRadius: 25,
+    marginVertical:10
   },
   buttonText: {
     color: '#fff',

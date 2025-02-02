@@ -3,6 +3,7 @@ import axios from 'axios';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { navigate } from 'expo-router/build/global-state/routing';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';  // Import MaterialCommunityIcons
 
 function AddGroupScreen({ navigation }: { navigation: any }) {
   const [groupName, setGroupName] = useState('');
@@ -31,7 +32,7 @@ function AddGroupScreen({ navigation }: { navigation: any }) {
 
     try {
       // Retrieve adminId from AsyncStorage
-      const adminId = await AsyncStorage.getItem('userId');  // Ensure this is correctly set after login
+      const adminId = await AsyncStorage.getItem('userId');
       if (!adminId) {
         Alert.alert('Erreur', 'Admin ID introuvable. Veuillez vous reconnecter.');
         return;
@@ -41,11 +42,11 @@ function AddGroupScreen({ navigation }: { navigation: any }) {
       const groupData = {
         name: groupName,
         price: parseFloat(montant),
-        email: email,  // Make sure email is a string
+        email: email,
         seuil: parseFloat(seuil),
-        telephone: parseInt(telephone),  // Ensure telephone is passed as an integer
+        telephone: parseInt(telephone),
         description: description,
-        adminId: adminId,  // Send adminId as part of the request
+        adminId: adminId,
       };
 
       // Send request to the backend
@@ -71,59 +72,77 @@ function AddGroupScreen({ navigation }: { navigation: any }) {
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <Text style={styles.title}>Ajouter un Groupe</Text>
+        <Text style={styles.title}>Veuillez remplir le formulaire du groupe</Text>
 
         {/* Group Name */}
-        <TextInput
-          style={styles.input}
-          placeholder="Nom du groupe"
-          value={groupName}
-          onChangeText={setGroupName}
-        />
+        <View style={styles.inputContainer}>
+          <Icon name="account-group" size={24} color="black" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Nom du groupe"
+            value={groupName}
+            onChangeText={setGroupName}
+          />
+        </View>
 
         {/* Email */}
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          keyboardType="email-address"
-          value={email}
-          onChangeText={setEmail}
-        />
+        <View style={styles.inputContainer}>
+          <Icon name="email" size={24} color="black" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            keyboardType="email-address"
+            value={email}
+            onChangeText={setEmail}
+          />
+        </View>
 
         {/* Montant */}
-        <TextInput
-          style={styles.input}
-          placeholder="Montant"
-          keyboardType="numeric"
-          value={montant}
-          onChangeText={setMontant}
-        />
+        <View style={styles.inputContainer}>
+          <Icon name="cash" size={24} color="black" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Montant"
+            keyboardType="numeric"
+            value={montant}
+            onChangeText={setMontant}
+          />
+        </View>
 
         {/* Seuil */}
-        <TextInput
-          style={styles.input}
-          placeholder="Seuil minimal"
-          keyboardType="numeric"
-          value={seuil}
-          onChangeText={setSeuil}
-        />
+        <View style={styles.inputContainer}>
+          <Icon name="trending-up" size={24} color="black" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Seuil minimal"
+            keyboardType="numeric"
+            value={seuil}
+            onChangeText={setSeuil}
+          />
+        </View>
 
         {/* Téléphone */}
-        <TextInput
-          style={styles.input}
-          placeholder="Téléphone"
-          keyboardType="phone-pad"
-          value={telephone}
-          onChangeText={setTelephone}
-        />
+        <View style={styles.inputContainer}>
+          <Icon name="phone" size={24} color="black" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Téléphone"
+            keyboardType="phone-pad"
+            value={telephone}
+            onChangeText={setTelephone}
+          />
+        </View>
 
         {/* Description */}
-        <TextInput
-          style={styles.input}
-          placeholder="Description"
-          value={description}
-          onChangeText={setDescription}
-        />
+        <View style={styles.inputContainer}>
+          <Icon name="information" size={24} color="black" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Description"
+            value={description}
+            onChangeText={setDescription}
+          />
+        </View>
 
         {/* Submit Button */}
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
@@ -145,8 +164,6 @@ const styles = StyleSheet.create({
   card: {
     width: '100%',
     maxWidth: 400,
-    backgroundColor: 'lightblue',
-    borderRadius: 8,
     padding: 20,
     shadowColor: '#000',
     shadowOpacity: 0.1,
@@ -155,25 +172,35 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   title: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 20,
-    color: 'white',
-    textAlign: 'center',
+    marginBottom: 30,
+    marginLeft: 0,
+    color: 'lightgreen',
+    
   },
-  input: {
-    width: '100%',
-    height: 50,
-    color: 'black',
-    borderColor: 'black',
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
     borderWidth: 2,
     borderRadius: 15,
-    marginBottom: 20,
+    borderColor: 'lightgreen',
+    backgroundColor: 'white',
+  },
+  icon: {
+    paddingLeft: 16,
+    paddingRight:7,
+  },
+  input: {
+    width: '85%',
+    height: 50,
+    color: 'black',
     paddingHorizontal: 15,
     backgroundColor: 'white',
   },
   button: {
-    backgroundColor: 'black',
+    backgroundColor: 'lightgreen',
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 15,

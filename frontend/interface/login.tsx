@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function LoginScreen({ navigation }: { navigation: any }) {
   const [Email, setEmail] = useState('');
@@ -31,7 +32,7 @@ function LoginScreen({ navigation }: { navigation: any }) {
     };
 
     try {
-      const res = await axios.post('http://100.69.123.66:5000/auth/login', userData);
+      const res = await axios.post('http://100.69.121.82:5000/auth/login', userData);
 
       if (res.data.status === 'ok') {
         console.log(res.data);
@@ -58,10 +59,11 @@ function LoginScreen({ navigation }: { navigation: any }) {
   ></Image>
         <View style={styles.card}>
           {/* Login Title */}
-          <Text style={styles.title}> Login!</Text>
+          <Text style={styles.title}> Connexion!</Text>
 
           {/* Email Input */}
           <View style={styles.inputContainer}>
+          <Icon name="email-outline" size={22} color="#555" style={styles.icon} />
             <TextInput
               placeholder="Exemple@gmail.com"
               style={styles.input}
@@ -73,6 +75,7 @@ function LoginScreen({ navigation }: { navigation: any }) {
 
           {/* Password Input */}
           <View style={styles.inputContainer}>
+          <Icon name="lock-outline" size={22} color="#555" style={styles.icon} />
             <TextInput
               placeholder="Password"
               style={styles.input}
@@ -94,13 +97,13 @@ function LoginScreen({ navigation }: { navigation: any }) {
             style={styles.link}
             onPress={() => navigation.navigate('checkemail')}
           >
-            Forgot Password
+            Mot de passe oublié ?
           </Text>
           <Text
             style={styles.link}
             onPress={() => navigation.navigate('createaccount')}
           >
-            Don’t Have an Account?
+            Créer un compte
           </Text>
         </View>
       </View>
@@ -120,7 +123,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 0,
-    marginVertical:30,
+    marginVertical:10,
+    paddingVertical:0
+  },  icon: {
+    marginRight: 16,
   },
   img: {
     fontSize:30,
@@ -175,8 +181,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   link: {
-    padding: 8,
-    color: 'black',
+    padding: 16,
+    marginBottom:60,
+    color: '#007bff',
     fontSize: 17,
     fontWeight: 'bold',
   },
