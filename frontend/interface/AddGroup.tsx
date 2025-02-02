@@ -50,7 +50,7 @@ function AddGroupScreen({ navigation }: { navigation: any }) {
       };
 
       // Send request to the backend
-      const response = await axios.post('http://100.69.121.241:5000/groups/', groupData, {
+      const response = await axios.post('http://100.69.121.82:5000/groups/', groupData, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',

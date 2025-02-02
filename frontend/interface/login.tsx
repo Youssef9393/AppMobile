@@ -136,17 +136,19 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: 'black',
+    color: 'lightgreen',
     textAlign: 'center',
 
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'lightblue',
+    backgroundColor: '',
     borderRadius: 80,
     paddingHorizontal: 10,
     marginBottom: 25,
+    borderColor:'lightgreen',
+    borderWidth:3,
     width: '100%',
     height: 50,
     shadowColor: '#000',
@@ -157,10 +159,10 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 16,
-    color: 'white',
+    color: 'black',
   },
   loginButton: {
-    backgroundColor: 'lightblue',
+    backgroundColor: 'lightgreen',
     borderRadius: 80,
     width: '100%',
     alignItems: 'center',
@@ -169,7 +171,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   loginButtonText: {
-    color: 'black',
+    color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -183,7 +185,7 @@ const styles = StyleSheet.create({
   link: {
     padding: 16,
     marginBottom:60,
-    color: '#007bff',
+    color: 'lightgreen',
     fontSize: 17,
     fontWeight: 'bold',
   },

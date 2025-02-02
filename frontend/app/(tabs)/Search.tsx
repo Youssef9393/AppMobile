@@ -67,20 +67,21 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   searchContainer: {
-    marginVertical:18,
+    marginVertical:40,
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#ccc',
+    borderWidth: 3,
     borderRadius: 30,
     marginBottom: 20,
     paddingLeft: 10,
+   borderColor:'lightgreen'
   },
   searchInput: {
     flex: 1,
     height: 40,
     paddingLeft: 10, // Space between icon and text
     fontSize: 16,
+   
   },
   icon: {
     marginRight: 5, // Space between icon and input text

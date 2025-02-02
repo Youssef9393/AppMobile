@@ -40,8 +40,8 @@ const GroupCard: React.FC<GroupCardProps> = ({ title, descriptions, onPress }) =
 
 const Home = ({ navigation }: { navigation: any }) =>{
   const chatBotbtn = () => (
-    <TouchableOpacity onPress={() => navigation.navigate('Chat')} style={{borderRadius:30}}>
-      <Image style={{ height: 50, width: 50 ,marginHorizontal:330}} source={require('C:/AppMobile/frontend/assets/images/gpt.jpeg')} />
+    <TouchableOpacity onPress={() => navigation.navigate('Chat')} style={{borderRadius:30,marginVertical:-20}}>
+      <Image style={{ height: 60, width: 60 ,marginHorizontal:310,borderRadius:100}} source={require('C:/AppMobile/frontend/assets/images/gpt.jpeg')} />
       
     </TouchableOpacity>
   );
