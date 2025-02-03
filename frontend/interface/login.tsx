@@ -119,12 +119,14 @@ const styles = StyleSheet.create({
     paddingVertical: 0, 
   },
   container: {
+    height:70,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 0,
     marginVertical:10,
-    paddingVertical:0
+    paddingVertical:0,
+    backgroundColor:'white'
   },  icon: {
     marginRight: 16,
   },
@@ -176,11 +178,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   linksContainer: {
-    paddingVertical: 20,
+    paddingVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    marginTop: 10,
+    marginBottom: 104,
   },
   link: {
     padding: 16,
