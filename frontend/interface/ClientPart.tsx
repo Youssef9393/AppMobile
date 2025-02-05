@@ -6,18 +6,18 @@ import axios from 'axios';
 
 const ExpenseCard = ({ navigation }: { navigation: any }) => {
   const [people, setPeople] = useState([
-    { id: '1', name: 'Alice', email: 'alice@example.com', expense: 120 },
-    { id: '2', name: 'Bob', email: 'bob@example.com', expense: 250 },
-    { id: '3', name: 'Charlie', email: 'charlie@example.com', expense: 90 },
+    { id: '1', name: 'youssef', email: 'youssef@gmai.com', expense: 12077 },
+    { id: '2', name: 'ismail', email: 'ismail@gmail.com', expense: 2506666 },
+    { id: '3', name: 'karim', email: 'karim@gmail.com', expense: 908888 },
   ]);
 
   const [transactions, setTransactions] = useState([
-    { id: '1', description: 'khali a payé le déjeuner', amount: 50 },
-    { id: '2', description: 'nadia a payé le transport', amount: 30 },
-    { id: '3', description: 'Ahmed a payé le déjeuner', amount: 10 },
-    { id: '4', description: 'Ala a payé le transport', amount: 30 },
-    { id: '5', description: 'Mohamed a payé le déjeuner', amount: 500 },
-    { id: '6', description: 'Bob a payé le transport', amount: 300 },
+    { id: '1', description: 'khali ', amount: 5077 },
+    { id: '2', description: 'nadia ', amount: 3000 },
+    { id: '3', description: 'Ahmed ', amount: 10000 },
+    { id: '4', description: 'Ala ', amount: 300000 },
+    { id: '5', description: 'Mohamed ', amount: 50000 },
+    { id: '6', description: 'Bob ', amount: 300 },
   ]);
 
   const [totalBalance, setTotalBalance] = useState(() =>
