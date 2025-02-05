@@ -1,23 +1,43 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Alert, TextInput, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // Importing MaterialCommunityIcons
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Screen for "Participer à un groupe"
 export default function JoinGroupScreen({ navigation }: { navigation: any }) {
   const [id, setId] = useState('');
   const [groupName, setGroupName] = useState(''); // Added state for group name
 
-  const handleSubmit = () => {
-    if (!id.trim()) {
-      Alert.alert('Erreur', 'Veuillez entrer un ID valide.');
-      return;
+  const handleSubmit = async () => {
+    try {
+      // Récupérer l'ID de l'admin depuis AsyncStorage
+      const adminId = await AsyncStorage.getItem('userId');
+      console.log(adminId)
+      
+      if (!adminId) {
+        Alert.alert('Erreur', 'Admin ID introuvable. Veuillez vous reconnecter.');
+        return;
+      }
+  
+      // console.log(adminId);
+  
+      // Navigation après récupération de l'ID
+      navigation.navigate('ClientPart');
+  
+      // Simuler la récupération du nom du groupe
+      setGroupName(`Group Name for ID: ${id}`);
+  
+      Alert.alert('Succès', `ID saisi : ${id}`);
+  
+      // Réinitialiser le champ d'entrée
+      setId('');
+    } catch (error) {
+      console.error('Erreur lors de la récupération de l\'admin ID', error);
+      Alert.alert('Erreur', 'Une erreur s\'est produite.');
     }
-    navigation.navigate('ClientPart')
-    // Simulate fetching the group name (you can replace this with real data fetching)
-    setGroupName(`Group Name for ID: ${id}`); // This is just a placeholder
-    Alert.alert('Succès', `ID saisi : ${id}`);
-    setId(''); // Reset input field
   };
+  
+  
 
   return (
     <View style={styles.container}>

@@ -12,7 +12,8 @@ function AddGroupScreen({ navigation }: { navigation: any }) {
   const [montant, setMontant] = useState('');
   const [seuil, setSeuil] = useState('');
   const [description, setDescription] = useState('');
-
+ //for email
+  
   const handleSubmit = async () => {
     // Validate all fields
     if (!groupName.trim() || !montant.trim() || !seuil.trim() || !email.trim() || !telephone.trim() || !description.trim()) {
@@ -48,6 +49,7 @@ function AddGroupScreen({ navigation }: { navigation: any }) {
         description: description,
         adminId: adminId,
       };
+     
 
       // Send request to the backend
       const response = await axios.post('http://100.69.121.82:5000/groups/', groupData, {
